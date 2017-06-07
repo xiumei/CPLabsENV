@@ -1,26 +1,28 @@
-## About
+# About
 *Dockerfiles for setting up development environment for Customer Portal Labs.*
-It support applications written in Ruby on Rails and NodeJS as well as the above run with MySQL and Mongo DB based on Fedora 23.
+
+It supports applications written in Ruby on Rails and NodeJS as well as the above run with MySQL and Mongo DB based on Fedora 23.
 The repo offers some scripts to build all docker images from dockerfiles and run applications on your local box.
 
-## Features
+# Features
 - Share dockerfiles to build environment for RoR and Nodejs applications as well as MySQL and Mongo DB.
 - Offer dockerfiles to set up proxy for Customer Portal Labs.
 - Ship script to run applications which integrates source mounting, port mapping, container running and DB linking.
 - Embed script to install dependencies, initialize DB as well as start server when running applications.
 
 
-## How To Use
+# How To Use
 
-# Clone this repository
+## Clone this repository
 ```bash
 git clone <Repo url>
 ```
 
-# Build docker images
+## Build docker images
 Before build starts,
 
 - Edit your UID
+
 When running the app, source of your application will be mounted to the container. In order to make files created in the container have the same permission or ownership as existing ones, the user running the application in container should have the same uid as the one owns the application in host.
 
 Check the uid of the application owner.
@@ -28,7 +30,8 @@ Check the uid of the application owner.
 id <owner of the app>
 ```
 
-- Edit Dockerfiles
+Edit Dockerfiles
+
 ```shell
 cd labsEnv
 sed -i 's/RUN useradd -u 1000 labsapp/RUN useradd -u <your user id> labsapp/g' labs-rails/Dockerfile
@@ -36,6 +39,7 @@ sed -i 's/RUN useradd -u 1000 labsapp/RUN useradd -u <your user id> labsapp/g' l
 ```
 
 - Edit your host domain
+
 In order to use resources deployed in Customer Portal, a proxy is set for CPLabs to retrieve all data from Portal. As applications under development are usually running on your local box, a host domain must be accessible for returned resource. Here, we set Apache as a proxy with your own host domain.
 ```shell
 cd labsEnv
@@ -43,6 +47,7 @@ sed -i 's/myHost="my-host-domain"/myHost="<your host domain>"/g' labs-proxy/crea
 ```
 
 - Buid
+
 ```bash
 cd labsEnv
 ./build-all
@@ -53,13 +58,13 @@ cd labsEnv
 ./build-all -install
 ```
 
-# Run your application
+## Run your application
 ```bash
 <path to labsEnv>/runapp [options]
 ```
 
 Options
-- node/rails, the app to run is Rails or Nodejs. Default is Rails.
+- node/rails, the app to run is Rails or Nodejs. Default is 'rails'.
 - bundle/install, for Rails app, appending 'bundle' triggers 'bundle install'. For Node app, appending 'install' triggers 'npm install && bower install'. By default, bundle is appended.
 - rake, used in Rails app only to trigger 'rake db:migrate' task.
 - noproxy, no proxy container will be created.
@@ -70,6 +75,7 @@ Options
 - --image=<another image>, use another image to run the app. The default is labs-rails for Rails app and labs-node for Node app.
 
 Examples:
+
 Run demo Rails
 ```bash
 cd labsEnv/Demos/rh-labs-rails

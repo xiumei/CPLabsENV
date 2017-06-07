@@ -1,0 +1,11 @@
+html.next #main .app-block #results.status_ERROR {
+	background: orange;
+}
+
+html.next #main .app-block #results.status_VULNERABLE {
+	background: red;
+}
+
+html.next #main .app-block #results.status_ALLGOOD {
+	background: #55ff33;
+}

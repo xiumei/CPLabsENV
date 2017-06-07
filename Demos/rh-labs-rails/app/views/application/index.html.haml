@@ -1,0 +1,30 @@
+
+%h1
+  = $lab_name
+%p Some blurb about your application
+
+%div{"ng-controller" => "ExampleCtrl"}
+  .row
+    .col-md-6
+      .app-block
+        %h2.title Input
+        .content
+          .group.group-grey
+            %form.form-horizontal{:name => "domain_form", :role => "form"}
+              .form-group.split
+                .row
+                  .col-sm-3
+                    %label Some thing
+                  .col-sm-9
+                    %input.form-control{"ng-model" => "obj.something", :placeholder => "Put stuff here...", :type => "text"}/
+              %button.pull-right.btn.btn-default{"ng-click" => "check_server()"} Check
+    .col-md-6
+      .app-block
+        %h2.title Output
+        #results.content{:class => "status_{{status}}"}
+          .group
+            %div{"ng-if" => "obj.something"}
+              %h3 Title
+              %p
+                Some information about {{obj.something}}
+

@@ -1,0 +1,5 @@
+div.rh-navbar(ng-controller='NavbarCtrl')
+  div.container
+    ul.nav.nav-tabs
+      li(ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
+          a(href='{{item.link}}') {{item.title}}

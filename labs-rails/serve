@@ -1,0 +1,17 @@
+#!/bin/bash
+
+paramArray=( "$@" )
+if [[ $(echo ${paramArray[@]} | grep -Eao 'db' -q; echo $?) -eq 0 ]]; then
+    source /home/labsapp/.bashrc
+fi
+# ls $1
+cd /labsapp
+# owner=` ls -ld Gemfile  | awk '{print $3":"$4}'`
+# if [[ $(echo ${paramArray[@]} | grep -Eao 'bundle' -q; echo $?) -eq 0 ]]; then
+bundle install
+# fi
+if [[ $(echo ${paramArray[@]} | grep -Eao 'norake' -q; echo $?) -ne 0 ]]; then
+    bundle exec rake db:migrate
+fi
+# chown $owner Gemfile.lock
+rails s -b 0.0.0.0

@@ -21,16 +21,16 @@ git clone <Repo url>
 ## Build docker images
 Before build starts,
 
-- Edit your UID
+### Edit your UID
 
 When running the app, source of your application will be mounted to the container. In order to make files created in the container have the same permission or ownership as existing ones, the user running the application in container should have the same uid as the one owns the application in host.
 
-Check the uid of the application owner.
+- Check the uid of the application owner.
 ```shell
 id <owner of the app>
 ```
 
-Edit Dockerfiles
+- Edit Dockerfiles
 
 ```shell
 cd labsEnv
@@ -38,7 +38,7 @@ sed -i 's/RUN useradd -u 1000 labsapp/RUN useradd -u <your user id> labsapp/g' l
 sed -i 's/RUN useradd -u 1000 labsapp/RUN useradd -u <your user id> labsapp/g' labs-node/Dockerfile
 ```
 
-- Edit your host domain
+### Edit your host domain
 
 In order to use resources deployed in Customer Portal, a proxy is set for CPLabs to retrieve all data from Portal. As applications under development are usually running on your local box, a host domain must be accessible for returned resource. Here, we set Apache as a proxy with your own host domain.
 ```shell
@@ -46,7 +46,7 @@ cd labsEnv
 sed -i 's/myHost="my-host-domain"/myHost="<your host domain>"/g' labs-proxy/create-conf
 ```
 
-- Buid
+### Buid
 
 ```bash
 cd labsEnv

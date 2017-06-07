@@ -45,13 +45,13 @@ cd labsEnv
 sed -i 's/myHost="my-host-domain"/myHost="<your host domain>"/g' labs-proxy/create-conf
 ```
 
-### Buid
+### Build
 
 ```bash
 cd labsEnv
 ./build-all
 ```
-If docker is not installed in your OS, run:
+If docker is not installed on your OS, run:
 ```bash
 cd labsEnv
 ./build-all -install
@@ -59,7 +59,8 @@ cd labsEnv
 
 ## Run your application
 ```bash
-<path to labsEnv>/runapp [options]
+cd <path to local app>
+<path to labsEnv>/runapp.sh [options]
 ```
 
 Options
@@ -71,7 +72,7 @@ Options
 - -d, run the containers as daemon.
 - -q, create and link a MySQL container for the app.
 - -m, create and link a mongo db container for the app.
-- --image=<another image>, use another image to run the app. The default is labs-rails for Rails app and labs-node for Node app.
+- --image= < another image >, use another image to run the app. The default is labs-rails for Rails app and labs-node for Node app.
 
 Examples:
 

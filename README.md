@@ -81,7 +81,7 @@ cd labsEnv/Demos/rh-labs-rails
 labsEnv/runapp.sh rails
 ```
 
-Run deno rh-labs-node
+Run demo rh-labs-node
 ```bash
 cd labsEnv/Demos/rh-labs-node
 labsEnv/runapp.sh node install

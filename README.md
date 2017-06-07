@@ -13,36 +13,35 @@ The repo offers some scripts to build all docker images from dockerfiles and run
 
 # How To Use
 
-## Clone this repository
+## 1. Clone this repository
 ```bash
-git clone <Repo url>
+git clone REPO_URL
 ```
 
-## Build docker images
+## 2. Build docker images
 
-### Edit your UID
+### Edit UID
 
 When running the app, source of your application will be mounted to the container. In order to make files created in the container have the same permission or ownership as existing ones, the user running the application in container should have the same uid as the one owns the application in host.
 
 - Check the uid of the application owner.
 ```shell
-id <owner of the app>
+id APP_OWNER
 ```
 
 - Edit Dockerfiles
-
 ```shell
 cd labsEnv
-sed -i 's/RUN useradd -u 1000 labsapp/RUN useradd -u <your user id> labsapp/g' labs-rails/Dockerfile
-sed -i 's/RUN useradd -u 1000 labsapp/RUN useradd -u <your user id> labsapp/g' labs-node/Dockerfile
+sed -i 's/RUN useradd -u 1000 labsapp/RUN useradd -u YOUR_USER_ID labsapp/g' labs-rails/Dockerfile
+sed -i 's/RUN useradd -u 1000 labsapp/RUN useradd -u YOUR_USER_ID labsapp/g' labs-node/Dockerfile
 ```
 
-### Edit your host domain
+### Edit host domain
 
 In order to use resources deployed in Customer Portal, a proxy is set for CPLabs to retrieve all data from Portal. As applications under development are usually running on your local box, a host domain must be accessible for returned resource. Here, we set Apache as a proxy with your own host domain.
 ```shell
 cd labsEnv
-sed -i 's/myHost="my-host-domain"/myHost="<your host domain>"/g' labs-proxy/create-conf
+sed -i 's/myHost="my-host-domain"/myHost="YOUR_HOST_DOMAIN"/g' labs-proxy/create-conf
 ```
 
 ### Build
@@ -57,13 +56,13 @@ cd labsEnv
 ./build-all -install
 ```
 
-## Run your application
+## 3. Run your application
 ```bash
-cd <path to local app>
-<path to labsEnv>/runapp.sh [options]
+cd PATH_TO_LOCAL_APP
+PATH_TO_LABSENV/runapp.sh [options]
 ```
 
-Options
+## Options
 - node/rails, the app to run is Rails or Nodejs. Default is 'rails'.
 - bundle/install, for Rails app, appending 'bundle' triggers 'bundle install'. For Node app, appending 'install' triggers 'npm install && bower install'. By default, bundle is appended.
 - rake, used in Rails app only to trigger 'rake db:migrate' task.
@@ -72,9 +71,9 @@ Options
 - -d, run the containers as daemon.
 - -q, create and link a MySQL container for the app.
 - -m, create and link a mongo db container for the app.
-- --image= < another image >, use another image to run the app. The default is labs-rails for Rails app and labs-node for Node app.
+- --image=ANOTHER_IMAGE_NAME, use another image to run the app. The default is labs-rails for Rails app and labs-node for Node app.
 
-Examples:
+## Examples:
 
 Run demo rh-labs-rails
 ```bash
@@ -94,8 +93,8 @@ docker ps -a
 ```
 If the containers are up, you will be able to find containers with names like rh-labs-rails-proxy-3001-10001 and rh-labs-node-proxy-3002-10002, the port 3001/3002 is the one exposed by the application container, and 10001/10002 is exposed by the proxy container. You can access to your application in the browser by visiting links like:
 ```doc
-https://<my domain>:10001/labs/labsdemoapprails/
-https://<my domain>:10002/labs/rhlabsangular/
+https://YOUR_DOMAIN:10001/labs/labsdemoapprails/
+https://YOUR_DOMAIN:10002/labs/rhlabsangular/
 ```
 
 

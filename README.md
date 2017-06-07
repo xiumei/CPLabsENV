@@ -19,7 +19,6 @@ git clone <Repo url>
 ```
 
 ## Build docker images
-Before build starts,
 
 ### Edit your UID
 
@@ -76,13 +75,13 @@ Options
 
 Examples:
 
-Run demo Rails
+Run demo rh-labs-rails
 ```bash
 cd labsEnv/Demos/rh-labs-rails
 labsEnv/runapp.sh rails
 ```
 
-Run Node Rails
+Run deno rh-labs-node
 ```bash
 cd labsEnv/Demos/rh-labs-node
 labsEnv/runapp.sh node install

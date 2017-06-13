@@ -7,26 +7,35 @@ echo '--image=image'
 
 paramArray=( "$@" )
 if [[ ${#paramArray[@]} -gt 0 ]]; then
-  ports=$(netstat -lptun | awk '{printf $4"\n"}' | grep -Eo '[0-9]+$' | grep -E '^300[0-9]$')
-  ports_internal_candidate=(3000 3001 3002 3003 3004 3005)
-  ports_external_candidate=(10000 10001 10002 10003 10004 10005)
-  # appport="3000"
-  # proxyport="10000"
-  for ((i=0; i < ${#ports_internal_candidate[@]}; ++i)); do
-    echo $ports | grep -Eo "\\b${ports_internal_candidate[$i]}\\b"
-    if [[ $? -ne 0 ]]; then
-      appport=${ports_internal_candidate[$i]}
-      proxyport=${ports_external_candidate[$i]}
+  ports=$(netstat -lptun | awk '{printf $4"\n"}' | grep -Eo '[0-9]+$')
+
+  ports_internal_candidate=3000
+  while [ true ]; do
+    in_existed=$(echo $ports | grep -Eo "\\b$ports_internal_candidate\\b")
+    if [[ $in_existed != $ports_internal_candidate ]]; then
+      appport=$ports_internal_candidate
       break
+    else
+      ports_internal_candidate=$(($ports_internal_candidate+1))
     fi
   done
+
+  ports_external_candidate=10000
+  while [ true ]; do
+    ex_existed=$(echo $ports | grep -Eo "\\b$ports_external_candidate\\b")
+    if [[ $ex_existed != $ports_external_candidate ]]; then
+      proxyport=$ports_external_candidate
+      echo $proxyport
+      break
+    else
+      ports_external_candidate=$(($ports_external_candidate+1))
+    fi
+  done
+
   if [[ $(echo ${paramArray[@]} | grep -Eao 'noproxy' -q; echo $?) -eq 0 ]]; then
-      proxyport='noproxy'
+     proxyport='noproxy'
   fi
-  if [[ $appport == "" || $proxyport == "" ]]; then
-    echo "No port available."
-    exit
-  fi
+
   paramForServe="bundle"
   cartridgePort="3000"
   appdir=`pwd`

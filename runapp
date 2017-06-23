@@ -1,12 +1,18 @@
-echo 'runapp [bundle/install rake node/rails noproxy bash]'
-echo '-d daemon'
-echo '-q mysql'
-echo '-m mongo'
-echo '--image=image'
-
-
 paramArray=( "$@" )
-if [[ ${#paramArray[@]} -gt 0 ]]; then
+if [[ $(echo ${paramArray[@]} | grep -Eao '\-h' -q; echo $?) -eq 0 || $(echo ${paramArray[@]} | grep -Eao '\-\-help' -q; echo $?) -eq 0 ]]; then 
+  echo -e 'Usage: runapp [Option]...'
+  echo -e 'Run the application in current directory.\n'
+  echo -e 'Options:'
+  printf 'install \tUsed in Node app only to trigger "npm install && bower install".\n'
+  printf 'rake \t\tFor Rails app only. Run rake db:migrate.\n'
+  printf 'noproxy \tSet no proxy for the application.\n'
+  printf 'bash \t\tRun with an interactive prompt.\n'
+  printf "%s\t\t%s\n" '-d' 'Run the container as a daemon.'
+  printf "%s\t\t%s\n" '-q' 'Create and link MySQL to the container.'
+  printf "%s\t\t%s\n" '-m' 'Create and link mongo db to the container.'
+  printf "%s\t%s\n" '--image=[image]' 'Run the container with customized image.'
+  printf "%s\t%s\n" '-h|--help' 'Display this help and exit.'
+else
   ports=$(netstat -lptun | awk '{printf $4"\n"}' | grep -Eo '[0-9]+$')
 
   ports_internal_candidate=3000
@@ -33,17 +39,27 @@ if [[ ${#paramArray[@]} -gt 0 ]]; then
   done
 
   if [[ $(echo ${paramArray[@]} | grep -Eao 'noproxy' -q; echo $?) -eq 0 ]]; then
-     proxyport='noproxy'
+      proxyport='noproxy'
   fi
 
   paramForServe="bundle"
-  cartridgePort="3000"
+  # cartridgePort="3000"
   appdir=`pwd`
-  cartridge="labs-rails"
+  # cartridge="labs-rails"
   ir=" -it "
   usingProxy=1
   appname=`basename "$appdir"`
   env=`env | grep "LABS_APP_ENV" | grep ci -o`
+  if [ -f "$appdir"/Gruntfile.js ]; then
+    cartridge="labs-nodejs"
+    cartridgePort="9000"
+  elif [ -f "$appdir"/Gemfile ]; then
+    cartridge="labs-rails"
+    cartridgePort="3000"
+  else
+    echo "No image supports the project!"
+    exit 1
+  fi
 
   dbContainerName="$appname-mysql-$appport-$proxyport"
   for param in ${paramArray[@]}; do
@@ -60,13 +76,13 @@ if [[ ${#paramArray[@]} -gt 0 ]]; then
       "rake" )        
           paramForServe=$paramForServe' rake'
         ;;
-      "node" )
-          cartridge="labs-nodejs"
-          # proxyType="https"
-          # paramForServe=$appport
-          # cartridgePort="1337"
-          cartridgePort="9000"
-        ;;
+      # "node" )
+      #     cartridge="labs-nodejs"
+      #     # proxyType="https"
+      #     # paramForServe=$appport
+      #     # cartridgePort="1337"
+      #     cartridgePort="9000"
+      #   ;;
       "bash" )
           runBash=true
           ir=" -it "

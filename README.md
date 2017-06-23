@@ -4,6 +4,8 @@
 It supports applications written in Ruby on Rails and NodeJS as well as the above run with MySQL and Mongo DB based on Fedora 23.
 The repo offers some scripts to build all docker images from dockerfiles and run applications on your local box.
 
+*Note: The images are used to mimic development environment for Customer Portal Labs only. They are not supposed to apply in production.
+
 # Features
 - Share dockerfiles to build environment for RoR and Nodejs applications as well as MySQL and Mongo DB.
 - Offer dockerfiles to set up proxy for Customer Portal Labs.
@@ -55,36 +57,46 @@ If docker is not installed on your OS, run:
 cd labsEnv
 ./build-all -install
 ```
+## 3. Manage Docker as a non-root user
+```bash
+sudo groupadd docker
+sudo gpasswd -a $USER docker
+```
 
-## 3. Run your application
+## 4. Create link to runapp script
+```bash
+sudo ln -s PATH_TO_LABSENV/runapp /bin/runapp
+```
+
+## 5. Run your application
 ```bash
 cd PATH_TO_LOCAL_APP
-PATH_TO_LABSENV/runapp.sh [options]
+runapp [options]
 ```
 
 ## Options
-- node/rails, the app to run is Rails or Nodejs. Default is 'rails'.
-- bundle/install, for Rails app, appending 'bundle' triggers 'bundle install'. For Node app, appending 'install' triggers 'npm install && bower install'. By default, bundle is appended.
+- install, Used in Node app only to trigger 'npm install && bower install'.
 - rake, used in Rails app only to trigger 'rake db:migrate' task.
 - noproxy, no proxy container will be created.
 - bash, source will be mounted and you will interact with the /bin/bash of the container. You have to run other tasks like installing dependencies, initializing DB as well as starting server by yourself. In the bash mode, you are able to debug in the container.
-- -d, run the containers as daemon.
-- -q, create and link a MySQL container for the app.
-- -m, create and link a mongo db container for the app.
-- --image=ANOTHER_IMAGE_NAME, use another image to run the app. The default is labs-rails for Rails app and labs-node for Node app.
+- -d, run the container as a daemon.
+- -q, create and link a MySQL to the container.
+- -m, create and link a mongo db to the container.
+- --image=ANOTHER_IMAGE_NAME, run the container with another image. The default is labs-rails for Rails app and labs-node for Node app.
+- -h|--help, display this help and exit.
 
 ## Examples:
 
 Run demo rh-labs-rails
 ```bash
 cd labsEnv/Demos/rh-labs-rails
-labsEnv/runapp.sh rails
+runapp
 ```
 
 Run demo rh-labs-node
 ```bash
 cd labsEnv/Demos/rh-labs-node
-labsEnv/runapp.sh node install
+runapp install
 ```
 
 Check proxy port

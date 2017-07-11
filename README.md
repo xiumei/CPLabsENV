@@ -19,11 +19,13 @@ The repo offers some scripts to build all docker images from dockerfiles and run
 ```bash
 git clone REPO_URL
 ```
+
 ## ２. Manage Docker as a non-root user
 ```bash
 sudo groupadd docker
 sudo gpasswd -a $USER docker
 ```
+
 ## ３. Build docker images
 
 ### Edit UID

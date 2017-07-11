@@ -20,13 +20,13 @@ The repo offers some scripts to build all docker images from dockerfiles and run
 git clone REPO_URL
 ```
 
-## ２. Manage Docker as a non-root user
+## 2. Manage Docker as a non-root user
 ```bash
 sudo groupadd docker
 sudo gpasswd -a $USER docker
 ```
 
-## ３. Build docker images
+## 3. Build docker images
 
 ### Edit UID
 
@@ -58,11 +58,7 @@ sed -i 's/myHost="my-host-domain"/myHost="YOUR_HOST_DOMAIN"/g' labs-proxy/create
 cd labsEnv
 ./build-all
 ```
-If docker is not installed on your OS, run:
-```bash
-cd labsEnv
-./build-all -install
-```
+
 ## 4. Create link to runapp script
 ```bash
 sudo ln -s PATH_TO_LABSENV/runapp /bin/runapp

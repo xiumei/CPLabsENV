@@ -3,7 +3,7 @@
 echo "create-conf appport proxyport [ci] [https]"
 url="https://access.redhat.com"
 myHost="my-host-domain"
-proxy = "http://"$myHost
+proxy="http://"$myHost
 paramArray=( "$@" )
 appport=$1
 proxyport=$2

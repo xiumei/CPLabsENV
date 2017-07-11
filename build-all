@@ -6,10 +6,10 @@ if [ $1 == "-install" ]; then
     sudo systemctl start docker
 fi
 
-docker build -t fedora23-systemd /data/dockerfiles/systemd-fedora/
-docker build -t labs-proxy-embed /data/dockerfiles/labs-proxy/
-docker build -t labs-rails /data/dockerfiles/labs-rails/
-docker build -t labs-nodejs /data/dockerfiles/labs-node/
-docker build -t labs-mysql /data/dockerfiles/labs-mysql/
+docker build -t fedora23-systemd ./systemd-fedora/
+docker build -t labs-proxy-embed ./labs-proxy/
+docker build -t labs-rails ./labs-rails/
+docker build -t labs-nodejs ./labs-node/
+docker build -t labs-mysql ./labs-mysql/
 # docker pull mongo
-docker build -t labs-mongo /data/dockerfiles/labs-mongo/
+docker build -t labs-mongo ./labs-mongo/

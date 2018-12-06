@@ -35,12 +35,13 @@ sed -i 's/RUN useradd -u 1000 labsapp/RUN useradd -u YOUR_USER_ID labsapp/g' lab
 
 ```bash
 cd labsEnv
+docker build -t fedora23-systemd ./systemd-fedora/
 docker build -t labs-rails ./labs-rails/
 docker build -t labs-nodejs ./labs-node/
 ```
 
 ## 3. Run your application
-Mount app source to the container and map application port to host port. App source is mounted on /labsapp and you can run the serve in this directory.
+Mount app source to the container and map application port to host port. App source is mounted on /labsapp and you can run the serve in this directory. If DB is connected, set envs in the app container and consume them in your application. DB can run in containers as well or be installed in your local box.
 ```bash
 docker run --name "$appContainerName" -it -p $hostPort:$appPort -v "$appDir":/labsapp:Z labs-rails /bin/bash
 ```

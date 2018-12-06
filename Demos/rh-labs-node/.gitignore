@@ -1,8 +1,0 @@
-node_modules
-bower_components
-public
-.tmp
-.sass-cache
-.idea
-dist
-npm-debug.log

@@ -1,7 +1,0 @@
-#!/bin/bash
-set -e
-
-# Apache gets grumpy about PID files pre-existing
-mv /usr/local/apache2/logs/httpd.pid /bak.httpd.pid.bak
-
-exec httpd -DFOREGROUND

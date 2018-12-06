@@ -1,7 +1,0 @@
-variables:
-  API_BASE: "http://accesslabs.cee.redhat.com/manager/api/builds/"
-  LAB_ID: "rails"
-job:
-  script:
-    - curl -s http://accesslabs.cee.redhat.com/labs/buildscript/raw/master/build.sh    | bash -vx
-    - curl -s http://accesslabs.cee.redhat.com/labs/buildscript/raw/master/deploy.sh | bash -vx
